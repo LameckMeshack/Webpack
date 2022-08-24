@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
 
 module.exports = {
@@ -8,12 +9,14 @@ module.exports = {
   },
   output: {
     filename: "[name].bundle.js",
+    //my html file will be in the deploy folder
     path: path.resolve(__dirname, "deploy"),
   },
   plugins: [
     new HtmlWebpackPlugin({
       title: "Webpack Output",
     }),
+    new CleanWebpackPlugin(),
   ],
   devServer: {
     // hot: true,
@@ -25,6 +28,8 @@ module.exports = {
     // contentBase: "./deploy",
     port: 9000,
   },
+
+  //css loader
   module: {
     rules: [
       {
@@ -35,14 +40,12 @@ module.exports = {
         test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
         type: "asset/resource",
       },
+
+      {
+        test: /\.s[ac]ss$/i,
+        exclude: /node_modules/,
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
     ],
   },
-  //   module: {
-  //     rules: [
-  //       ...{
-  //         test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
-  //         type: "asset/resource",
-  //       },
-  //     ],
-  //   },
 };
