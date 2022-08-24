@@ -2,6 +2,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
 module.exports = {
+  watch: true, // enabled by default in devServer
   entry: {
     main: path.resolve(__dirname, "./src/index.js"),
   },
@@ -14,6 +15,16 @@ module.exports = {
       title: "Webpack Output",
     }),
   ],
+  devServer: {
+    // hot: true,
+    compress: true,
+    open: true,
+    static: {
+      directory: path.join(__dirname, "deploy"),
+    },
+    // contentBase: "./deploy",
+    port: 9000,
+  },
   module: {
     rules: [
       {
